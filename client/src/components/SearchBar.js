@@ -19,7 +19,7 @@ const SearchBar = ({ onSearch }) => {
         style={{ marginRight: '1rem' }}
       />
       <Button variant="contained" color="primary" type="submit">
-        Search
+        I Choose You!
       </Button>
     </form>
   );
