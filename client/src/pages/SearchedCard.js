@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import SearchBar from '../components/SearchBar';
 import { Button, Grid, Card, CardContent, Typography, IconButton, Box } from '@mui/material';
+import Lottie from 'lottie-react';
+import Diglett from '../assets/diglettloading.json';
+
 import CatchingPokemonIcon from '@mui/icons-material/CatchingPokemon';
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
 
@@ -33,48 +36,49 @@ const SearchedCard = () => {
   }, [searchTerm, page]); // Make sure "page" is included in the dependency array
 
   return (
-    <div className="App" >
+    <div className="App">
       <h1>Pokemon App</h1>
       <SearchBar onSearch={searchPokemon} />
-      {loading && <p>Loading...</p>}
-      {!loading && (
-        <Grid container spacing={2} style={{ marginTop: '30px' }}>
-          {cards.map(card => (
-            <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={card.id}>
-              <Card>
-                <CardContent>
-                  <Typography variant="h6" style={{ marginBottom: '8px' }}>{card.name}</Typography>
-                  <img src={card.set.images.logo} alt={card.name} style={{ width: '50px', height: 'auto' }} />
-                  <img src={card.images.small} alt={card.name} />
-                  <Box display="flex" justifyContent="center" marginTop="8px">
-                    <IconButton onClick={() => console.log('Icon clicked')}>
-                      <CatchingPokemonIcon fontSize="large" />
-                    </IconButton>
-                    <IconButton onClick={() => console.log('Icon clicked')}>
-                      <ZoomInIcon fontSize="large" />
-                    </IconButton>
-                  </Box>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      )}
-      {!loading && (
-        <div style={{ marginTop: '20px' }}>
-          <Button 
-            disabled={page === 1} 
-            onClick={() => setPage(prevPage => prevPage - 1)}>
-            Previous Page
-          </Button>
-          <Button 
-            onClick={() => setPage(prevPage => prevPage + 1)}>
-            Next Page
-          </Button>
-        </div>
+      {loading ? (
+        <Lottie animationData={Diglett} />
+      ) : (
+        <>
+          <Grid container spacing={2} style={{ marginTop: '30px' }}>
+            {cards.map((card) => (
+              <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={card.id}>
+                <Card>
+                  <CardContent>
+                    <Typography variant="h6" style={{ marginBottom: '8px' }}>{card.name}</Typography>
+                    <img src={card.set.images.logo} alt={card.name} style={{ width: '50px', height: 'auto' }} />
+                    <img src={card.images.small} alt={card.name} />
+                    <Box display="flex" justifyContent="center" marginTop="8px">
+                      <IconButton onClick={() => console.log('Icon clicked')}>
+                        <CatchingPokemonIcon fontSize="large" />
+                      </IconButton>
+                      <IconButton onClick={() => console.log('Icon clicked')}>
+                        <ZoomInIcon fontSize="large" />
+                      </IconButton>
+                    </Box>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+          <div style={{ marginTop: '20px' }}>
+            <Button 
+              disabled={page === 1} 
+              onClick={() => setPage(prevPage => prevPage - 1)}>
+              Previous Page
+            </Button>
+            <Button 
+              onClick={() => setPage(prevPage => prevPage + 1)}>
+              Next Page
+            </Button>
+          </div>
+        </>
       )}
     </div>
-  )
+  );
 }
 
 export default SearchedCard;
