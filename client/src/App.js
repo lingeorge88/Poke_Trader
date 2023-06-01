@@ -3,8 +3,10 @@ import React from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import SearchedCard from './pages/SearchedCard';
+
 import Signup from './pages/SignUp';
 import Login from './pages/Login';
+import LandingPage from './pages/LandingPage';
 
 
 function App() {
@@ -28,7 +30,8 @@ function App() {
       />
 
       <CssBaseline />
-      <SearchedCard />
+      <LandingPage />
+      {/* <SearchedCard /> */}
     </ThemeProvider>
   );
 }
