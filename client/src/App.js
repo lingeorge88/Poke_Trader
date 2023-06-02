@@ -5,8 +5,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ApolloClient, InMemoryCache, createHttpLink, ApolloProvider } from '@apollo/client';
 import CssBaseline from '@mui/material/CssBaseline';
 import SearchedCard from './pages/SearchedCard';
-import Signup from './pages/SignUp';
-import Login from './pages/Login';
+
 import LandingPage from './pages/LandingPage';
 import { setContext } from '@apollo/client/link/context';
 import HomePage from './pages/Homepage';
@@ -29,6 +28,7 @@ function App() {
   return (
     // <ApolloProvider client={client}>
     <ThemeProvider theme={theme}>
+
       <CssBaseline />
       <Router>
         <Routes>
