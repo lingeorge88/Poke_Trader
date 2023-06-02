@@ -1,6 +1,6 @@
 // Player cards
-const player1Card = 'Charizard';
-const player2Card = 'Blastoise';
+let player1Card = '';
+let player2Card = '';
 
 // Player 1 elements
 const player1CardElement = document.getElementById('player1Card');
@@ -50,3 +50,32 @@ function denyTrade() {
 
   alert('Trade denied!');
 }
+
+// Function to update player cards
+function updatePlayerCards(card1, card2) {
+  player1Card = card1;
+  player2Card = card2;
+
+  player1CardElement.textContent = player1Card;
+  player2CardElement.textContent = player2Card;
+}
+
+// Function to retrieve player cards from the deck
+function getPlayerCards() {
+  // Make an API request to the deck URL and retrieve player cards
+  // Replace the deckURL with your actual deck URL or API endpoint
+  const deckURL = 'https://example.com/deck';
+
+  fetch(deckURL)
+    .then((response) => response.json())
+    .then((data) => {
+      // Update player cards with the retrieved data
+      updatePlayerCards(data.player1Card, data.player2Card);
+    })
+    .catch((error) => {
+      console.log('Error:', error);
+    });
+}
+
+// Call the getPlayerCards function to retrieve player cards
+getPlayerCards();
