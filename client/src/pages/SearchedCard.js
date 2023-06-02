@@ -34,7 +34,7 @@ const SearchedCard = () => {
 
   return (
     <div className="App">
-      <h1>Pokemon App</h1>
+      <h1>Poké Trader</h1>
       <SearchBar onSearch={searchPokemon} />
       {loading ? (
         <Lottie animationData={Diglett} />
