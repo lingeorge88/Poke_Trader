@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import SearchBar from '../components/SearchBar';
 import { Button, Grid } from '@mui/material';
 import Lottie from 'lottie-react';
@@ -52,6 +53,10 @@ const SearchedCard = () => {
             <Button 
               onClick={() => setPage(prevPage => prevPage + 1)}>
               Next Page
+            </Button>
+            <Button 
+              component={Link} to="/home">
+              Home
             </Button>
           </div>
         </>
