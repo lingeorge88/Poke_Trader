@@ -2,9 +2,17 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     height: 100vh;
     font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
+    background-color: #b8b8ff;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: center;
   }
   
   .player {
@@ -12,6 +20,8 @@ body {
     background-color: #ffffff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     text-align: center;
+    margin: 0 10px;
+    flex: 1;
   }
   
   .card {
