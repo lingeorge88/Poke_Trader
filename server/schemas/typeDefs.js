@@ -27,7 +27,6 @@ const typeDefs = gql`
     user(id: ID!): User
     currentUser: User
     users: [User]
-    //ADD MORE
   }
 
   type Mutation {
