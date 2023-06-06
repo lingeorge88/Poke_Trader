@@ -5,7 +5,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ApolloClient, InMemoryCache, createHttpLink, ApolloProvider } from '@apollo/client';
 import CssBaseline from '@mui/material/CssBaseline';
 import SearchedCard from './pages/SearchedCard';
-
+import MyCollection from './pages/MyCollection';
 import LandingPage from './pages/LandingPage';
 import { setContext } from '@apollo/client/link/context';
 import HomePage from './pages/Homepage';
@@ -14,6 +14,22 @@ import HomePage from './pages/Homepage';
 const httpLink = createHttpLink({
   uri: '/graphql',
 });
+const authLink = setContext((_, { headers }) => {
+  // get the authentication token from local storage if it exists
+  const token = localStorage.getItem('id_token');
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
+
+const client = new ApolloClient({
+    link: authLink.concat(httpLink),
+    cache: new InMemoryCache(),
+  });
 function App() {
   const theme = createTheme({
     palette: {
@@ -21,12 +37,9 @@ function App() {
     },
   });
 
-  // const client = new ApolloClient({
-  //   link: authLink.concat(httpLink),
-  //   cache: new InMemoryCache(),
-  // });
+  
   return (
-    // <ApolloProvider client={client}>
+    <ApolloProvider client={client}>
     <ThemeProvider theme={theme}>
 
       <CssBaseline />
@@ -37,11 +50,11 @@ function App() {
           <Route path="/signup" element={<Signup />} /> */}
           <Route path="/home" element = {<HomePage/>} />
           <Route path="/search" element={<SearchedCard />} />
-          {/* Add as many routes as needed */}
+          <Route path="/saved" element={<MyCollection />} />
         </Routes>
       </Router>
     </ThemeProvider>
-    // </ApolloProvider>
+     </ApolloProvider>
   );
 }
 

@@ -38,7 +38,7 @@ function HomePage() {
           Search Cards
         </Button>
 
-        <Button variant="contained" color="primary" component={Link} to="/mycollection">
+        <Button variant="contained" color="primary" component={Link} to="/saved">
           My collection
         </Button>
 

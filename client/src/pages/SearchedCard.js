@@ -5,17 +5,46 @@ import { Button, Grid } from '@mui/material';
 import Lottie from 'lottie-react';
 import Diglett from '../assets/diglettloading.json';
 import CardComponent from './CardComponent';
+import { SAVE_CARD } from '../utils/mutations';
+import { useMutation } from '@apollo/client';
+import { saveCardIds, getSavedCardIds } from '../utils/localStorage';
 
 const SearchedCard = () => {
   const [cards, setCards] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
+  const [saveCard, { error }] = useMutation(SAVE_CARD);
+  const [savedCardIds, setSavedCardIds] = useState(getSavedCardIds());
 
   const searchPokemon = (search) => {
     setSearchTerm(search);
     setPage(1); // Reset to page 1 for new searches
   }
+
+  const handleSaveCard = async (cardId) => {
+    const cardToSave = cards.find((card) => card.cardId === cardId);
+  
+    try {
+      await saveCard({
+        variables: {
+          cardId: cardToSave.cardId,
+          name: cardToSave.name,
+          image: cardToSave.images.small,
+          setName: cardToSave.set.name,
+          seriesName: cardToSave.set.series,
+          setImage: cardToSave.set.images.logo,
+          rarity: cardToSave.rarity,
+          releaseDate: cardToSave.set.releaseDate,
+        }
+      });
+  
+      // Assuming you have a state for savedCardIds
+      setSavedCardIds([...savedCardIds, cardToSave.cardId]);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   useEffect(() => {
     if (searchTerm) {
@@ -42,7 +71,7 @@ const SearchedCard = () => {
       ) : (
         <>
           <Grid container spacing={2} style={{ marginTop: '30px' }}>
-            {cards.map((card) => <CardComponent card={card} />)}
+            {cards.map((card) => <CardComponent card={card} handleSave={handleSaveCard}/>)}
           </Grid>
           <div style={{ marginTop: '20px' }}>
             <Button 

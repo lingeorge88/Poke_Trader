@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Grid, Card, CardContent, Typography, IconButton, Box } from '@mui/material';
 import CatchingPokemonIcon from '@mui/icons-material/CatchingPokemon';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ZoomPopover from '../components/CardPopOver';
 
-const CardComponent = ({ card }) => {
+const CardComponent = ({ card, handleDelete, showDelete, handleSave }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleOpen = (event) => {
@@ -22,9 +23,14 @@ const CardComponent = ({ card }) => {
           <img src={card.set.images.logo} alt={card.name} style={{ width: '65px', height: 'auto' }} />
           <img src={card.images.small} alt={card.name} />
           <Box display="flex" justifyContent="center" marginTop="8px">
-            <IconButton onClick={() => console.log('Icon clicked')}>
-              <CatchingPokemonIcon fontSize="large" />
-            </IconButton>
+          <IconButton onClick={() => handleSave(card.cardId)}>
+            <CatchingPokemonIcon fontSize="large" />
+          </IconButton>
+            {showDelete && (
+              <IconButton aria-label="delete" onClick={() => handleDelete(card.cardId)}>
+                <DeleteOutlineIcon />
+              </IconButton>
+            )}
             <ZoomPopover 
               anchorEl={anchorEl} 
               handleOpen={handleOpen} 
