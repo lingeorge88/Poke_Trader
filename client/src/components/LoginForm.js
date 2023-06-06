@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { Form, Button, Alert } from 'react-bootstrap';
-
+import { TextField, Button, Grid, Box, Typography } from '@mui/material';
+import Alert from '@mui/material/Alert';
+import { useNavigate } from 'react-router-dom';
 import Auth from '../utils/auth';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations';
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
-  const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
   // refactored to use GraphQL API instead of RESTful API
@@ -21,27 +23,19 @@ const Login = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    // check if form has everything (as per react-bootstrap docs)
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-
     try {
-      const { data } = await login(
-        {
-          variables: userFormData,
-        }
-      );
+      const { data } = await login({
+        variables: userFormData,
+      });
+      
       Auth.login(data.login.token);
+      navigate("/home");
     } catch (err) {
       console.error(err);
       setShowAlert(true);
     }
 
     setUserFormData({
-      username: '',
       email: '',
       password: '',
     });
@@ -52,44 +46,46 @@ const Login = () => {
   }
 
   return (
-    <>
-      <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
-        <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
-          Something went wrong with your login credentials!
-        </Alert>
-        <Form.Group className='mb-3'>
-          <Form.Label htmlFor='email'>Email</Form.Label>
-          <Form.Control
-            type='text'
-            placeholder='Your email'
-            name='email'
-            onChange={handleInputChange}
-            value={userFormData.email}
-            required
-          />
-          <Form.Control.Feedback type='invalid'>Email is required!</Form.Control.Feedback>
-        </Form.Group>
-
-        <Form.Group className='mb-3'>
-          <Form.Label htmlFor='password'>Password</Form.Label>
-          <Form.Control
-            type='password'
-            placeholder='Your password'
-            name='password'
-            onChange={handleInputChange}
-            value={userFormData.password}
-            required
-          />
-          <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
-        </Form.Group>
-        <Button
-          disabled={!(userFormData.email && userFormData.password)}
-          type='submit'
-          variant='success'>
-          Submit
-        </Button>
-      </Form>
-    </>
+    <Box>
+      <form noValidate onSubmit={handleFormSubmit}>
+        {showAlert && 
+          <Alert severity="error" onClose={() => setShowAlert(false)}>
+            Something went wrong with your login credentials!
+          </Alert>
+        }
+        <Grid container direction="column" spacing={2}>
+          <Grid item>
+            <TextField 
+              label="Email"
+              type="text"
+              name="email"
+              value={userFormData.email}
+              onChange={handleInputChange}
+              required
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              label="Password"
+              type="password"
+              name="password"
+              value={userFormData.password}
+              onChange={handleInputChange}
+              required
+            />
+          </Grid>
+          <Grid item>
+            <Button
+              disabled={!(userFormData.email && userFormData.password)}
+              type="submit"
+              variant="contained"
+            >
+              Submit
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
+    </Box>
   );
 };
 

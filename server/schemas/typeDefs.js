@@ -9,7 +9,7 @@ const typeDefs = gql`
     savedCards: [Card]
   }
   type Card {
-    cardId: String!
+    cardId: ID!
     name: String!
     image: String
     setName: String
@@ -31,9 +31,9 @@ const typeDefs = gql`
 
   type Mutation {
     login(email: String!, password: String!): Auth
-    addUser: (username: String!, email: String!, password: String!): Auth
+    addUser(username: String!, email: String!, password: String!): Auth
     saveCard(
-      cardId: String!
+      cardId: ID!
     name: String!
     image: String
     setName: String
@@ -44,7 +44,7 @@ const typeDefs = gql`
     ): User
 
     removeCard(
-      cardId: String!
+      cardId: ID!
     ): User
   }
 

@@ -12,7 +12,7 @@ import HomePage from './pages/Homepage';
 
 
 const httpLink = createHttpLink({
-  uri: '/graphql',
+  uri: 'http://localhost:3001/graphql',
 });
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
@@ -46,8 +46,6 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          {/* <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} /> */}
           <Route path="/home" element = {<HomePage/>} />
           <Route path="/search" element={<SearchedCard />} />
           <Route path="/saved" element={<MyCollection />} />
