@@ -1,48 +1,77 @@
-const player1CardImage = document.getElementById('player1CardImage');
-const player2CardImage = document.getElementById('player2CardImage');
-const player1ConfirmButton = document.getElementById('player1Confirm');
-const player1DenyButton = document.getElementById('player1Deny');
-const player2ConfirmButton = document.getElementById('player2Confirm');
-const player2DenyButton = document.getElementById('player2Deny');
+import React, { useState } from 'react';
 
-const Trading = () => {
+const Trading = ({ selectedCard }) => {
   const [player1Card, setPlayer1Card] = useState('');
   const [player2Card, setPlayer2Card] = useState('');
+  const [player1Confirmed, setPlayer1Confirmed] = useState(false);
+  const [player2Confirmed, setPlayer2Confirmed] = useState(false);
 
-  const handlePlayer1Confirm = (card) => {
-    // Update the cards when Player 1 confirms the trade
-    setPlayer1Card(card);
-    alert('Trade confirmed!');
+  const handlePlayer1Confirm = () => {
+    setPlayer1Confirmed(true);
+    alert('Player 1 confirmed the trade!');
   };
 
   const handlePlayer1Deny = () => {
-    // Reset the cards when Player 1 denies the trade
-    alert('Trade denied!');
+    setPlayer1Confirmed(false);
+    alert('Player 1 denied the trade!');
   };
 
-  const handlePlayer2Confirm = (card) => {
-    // Update the cards when Player 2 confirms the trade
-    setPlayer2Card(card);
-    alert('Trade confirmed!');
+  const handlePlayer2Confirm = () => {
+    setPlayer2Confirmed(true);
+    alert('Player 2 confirmed the trade!');
   };
 
   const handlePlayer2Deny = () => {
-    // Reset the cards when Player 2 denies the trade
-    alert('Trade denied!');
+    setPlayer2Confirmed(false);
+    alert('Player 2 denied the trade!');
   };
 
-  useEffect(() => {
-    // Update the card images when player1Card or player2Card changes
-    player1CardImage.src = player1Card;
-    player2CardImage.src = player2Card;
-  }, [player1Card, player2Card]);
+  const handleTrade = () => {
+    if (player1Confirmed && player2Confirmed) {
+      setPlayer1Card(player2Card);
+      setPlayer2Card(selectedCard);
+      setPlayer1Confirmed(false);
+      setPlayer2Confirmed(false);
+      alert('Trade confirmed!');
+    } else {
+      alert('Both players must confirm the trade!');
+    }
+  };
 
-  player1ConfirmButton.addEventListener('click', () => handlePlayer1Confirm(player2Card));
-  player1DenyButton.addEventListener('click', handlePlayer1Deny);
-  player2ConfirmButton.addEventListener('click', () => handlePlayer2Confirm(player1Card));
-  player2DenyButton.addEventListener('click', handlePlayer2Deny);
-
-  return null; // Trading.js doesn't render any visible UI, so return null
+  return (
+    <div>
+      <h1>Card Trading</h1>
+      <div>
+        <h2>Player 1</h2>
+        <p>Card: {player1Card}</p>
+        {player1Confirmed ? (
+          <p>Trade confirmed!</p>
+        ) : (
+          <button id="player1Confirm" onClick={handlePlayer1Confirm}>
+            Confirm Trade
+          </button>
+        )}
+        <button id="player1Deny" onClick={handlePlayer1Deny}>
+          Deny Trade
+        </button>
+      </div>
+      <div>
+        <h2>Player 2</h2>
+        <p>Card: {player2Card}</p>
+        {player2Confirmed ? (
+          <p>Trade confirmed!</p>
+        ) : (
+          <button id="player2Confirm" onClick={handlePlayer2Confirm}>
+            Confirm Trade
+          </button>
+        )}
+        <button id="player2Deny" onClick={handlePlayer2Deny}>
+          Deny Trade
+        </button>
+      </div>
+      <button onClick={handleTrade}>Trade</button>
+    </div>
+  );
 };
 
 export default Trading;

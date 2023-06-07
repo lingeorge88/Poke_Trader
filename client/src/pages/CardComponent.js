@@ -1,63 +1,69 @@
-import React, { useState } from 'react';
-import { Grid, Card, CardContent, Typography, IconButton, Box } from '@mui/material';
-import CatchingPokemonIcon from '@mui/icons-material/CatchingPokemon';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import ZoomPopover from '../components/CardPopOver';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Button, Grid } from '@mui/material';
+import Lottie from 'lottie-react';
+import Diglett from '../assets/diglettloading.json';
+import CardComponent from './CardComponent';
 import axios from 'axios';
 
-const CardComponent = ({ card, handleDelete, showDelete, handleSave }) => {
-  const [anchorEl, setAnchorEl] = useState(null);
+const MyCollections = () => {
+  const [loading, setLoading] = useState(true);
+  const [savedCards, setSavedCards] = useState([]);
 
-  const handleOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  useEffect(() => {
+    loadSavedCards();
+  }, []);
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const loadSavedCards = async () => {
+    try {
+      const response = await axios.get('/api/cards'); // Replace '/api/cards' with your backend API route that retrieves saved cards
+      setSavedCards(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
   };
 
   const handleCardDelete = async (cardId) => {
     try {
-      await axios.delete(`/api/cards/${cardId}`);
-      handleDelete(cardId);
+      await axios.delete(`/api/cards/${cardId}`); // Replace '/api/cards' with your backend API route for deleting a card
+      setSavedCards(savedCards.filter((card) => card._id !== cardId));
     } catch (error) {
       console.error(error);
     }
   };
 
+  const handleCardSelect = (card) => {
+    // Handle card selection here
+    console.log('Selected card:', card);
+  };
+
+  if (loading) {
+    return <Lottie animationData={Diglett} />;
+  }
+
   return (
-    <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={card.id}>
-      <Card>
-        <CardContent>
-          <Typography variant="h5" style={{ marginBottom: '8px' }}>
-            {card.name}
-          </Typography>
-          <img src={card.set.images.logo} alt={card.name} style={{ width: '65px', height: 'auto' }} />
-          <img src={card.images.small} alt={card.name} />
-          <Box display="flex" justifyContent="center" marginTop="8px">
-            <IconButton onClick={() => handleSave(card.id)}>
-              <CatchingPokemonIcon fontSize="large" />
-            </IconButton>
-            {showDelete && (
-              <IconButton aria-label="delete" onClick={() => handleCardDelete(card.id)}>
-                <DeleteOutlineIcon />
-              </IconButton>
-            )}
-            <ZoomPopover
-              anchorEl={anchorEl}
-              handleOpen={handleOpen}
-              handleClose={handleClose}
-              cardSetName={card.set.name}
-              cardSetSeries={card.set.series}
-              releaseDate={card.set.releaseDate}
-              logoImage={card.set.images.logo}
-              cardRarity={card.rarity}
-            />
-          </Box>
-        </CardContent>
-      </Card>
-    </Grid>
+    <div className="App">
+      <h1>My Collection</h1>
+      <Grid container spacing={2} style={{ marginTop: '30px' }}>
+        {savedCards.map((card) => (
+          <CardComponent
+            card={card}
+            handleDelete={handleCardDelete}
+            showDelete={true}
+            onSelect={() => handleCardSelect(card)} // Pass the onSelect prop with the card as parameter
+            key={card._id} // Assuming your card object has an '_id' field as its unique identifier
+          />
+        ))}
+      </Grid>
+      <div style={{ marginTop: '20px' }}>
+        <Button component={Link} to="/home">
+          Home
+        </Button>
+      </div>
+    </div>
   );
 };
 
-export default CardComponent;
+export default MyCollections;
