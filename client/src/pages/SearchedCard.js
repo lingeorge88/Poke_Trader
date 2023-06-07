@@ -8,6 +8,7 @@ import CardComponent from './CardComponent';
 import { SAVE_CARD } from '../utils/mutations';
 import { useMutation } from '@apollo/client';
 import { saveCardIds, getSavedCardIds } from '../utils/localStorage';
+import CardTrade from './CardTrade'; // Import the CardTrade component
 
 const SearchedCard = () => {
   const [cards, setCards] = useState([]);
@@ -21,8 +22,6 @@ const SearchedCard = () => {
     setSearchTerm(search);
     setPage(1); // Reset to page 1 for new searches
   }
-
-
 
   useEffect(() => {
     if (searchTerm) {
@@ -39,7 +38,7 @@ const SearchedCard = () => {
         });
     }
   }, [searchTerm, page]); 
-  // console.log(cards);
+
   const handleSaveCard = async (cardId) => {
     const cardToSave = cards.find((card) => card.id === cardId);
   
@@ -57,7 +56,6 @@ const SearchedCard = () => {
         }
       });
   
-      
       setSavedCardIds([...savedCardIds, cardToSave.id]);
     } catch (err) {
       console.error(err);
@@ -90,6 +88,7 @@ const SearchedCard = () => {
               Home
             </Button>
           </div>
+          <CardTrade /> {/* Render the CardTrade component */}
         </>
       )}
     </div>

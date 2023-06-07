@@ -1,81 +1,50 @@
-// Player cards
-let player1Card = '';
-let player2Card = '';
+import React, { useState } from 'react';
 
-// Player 1 elements
-const player1CardElement = document.getElementById('player1Card');
-const player1ConfirmButton = document.getElementById('player1Confirm');
-const player1DenyButton = document.getElementById('player1Deny');
+const CardTrade = () => {
+  const [player1Card, setPlayer1Card] = useState('');
+  const [player2Card, setPlayer2Card] = useState('');
 
-// Player 2 elements
-const player2CardElement = document.getElementById('player2Card');
-const player2ConfirmButton = document.getElementById('player2Confirm');
-const player2DenyButton = document.getElementById('player2Deny');
+  const handlePlayer1Confirm = () => {
+    // Update the cards when Player 1 confirms the trade
+    setPlayer1Card(player2Card);
+    setPlayer2Card(player1Card);
+    alert('Trade confirmed!');
+  };
 
-// Add event listeners for Player 1 buttons
-player1ConfirmButton.addEventListener('click', () => {
-  confirmTrade('player1');
-});
+  const handlePlayer1Deny = () => {
+    // Reset the cards when Player 1 denies the trade
+    alert('Trade denied!');
+  };
 
-player1DenyButton.addEventListener('click', () => {
-  denyTrade();
-});
+  const handlePlayer2Confirm = () => {
+    // Update the cards when Player 2 confirms the trade
+    setPlayer1Card(player2Card);
+    setPlayer2Card(player1Card);
+    alert('Trade confirmed!');
+  };
 
-// Add event listeners for Player 2 buttons
-player2ConfirmButton.addEventListener('click', () => {
-  confirmTrade('player2');
-});
+  const handlePlayer2Deny = () => {
+    // Reset the cards when Player 2 denies the trade
+    alert('Trade denied!');
+  };
 
-player2DenyButton.addEventListener('click', () => {
-  denyTrade();
-});
+  return (
+    <div>
+      <h1>Card Trading</h1>
+      <div>
+        <h2>Player 1</h2>
+        <p>Card: {player1Card}</p>
+        <button onClick={handlePlayer1Confirm}>Confirm</button>
+        <button onClick={handlePlayer1Deny}>Deny</button>
+      </div>
+      <div>
+        <h2>Player 2</h2>
+        <p>Card: {player2Card}</p>
+        <button onClick={handlePlayer2Confirm}>Confirm</button>
+        <button onClick={handlePlayer2Deny}>Deny</button>
+      </div>
+    </div>
+  );
+};
 
-// Function to confirm the trade
-function confirmTrade(player) {
-  if (player === 'player1') {
-    player1CardElement.textContent = player2Card;
-    player2CardElement.textContent = player1Card;
-  } else if (player === 'player2') {
-    player1CardElement.textContent = player2Card;
-    player2CardElement.textContent = player1Card;
-  }
-
-  alert('Trade confirmed!');
-}
-
-// Function to deny the trade
-function denyTrade() {
-  player1CardElement.textContent = player1Card;
-  player2CardElement.textContent = player2Card;
-
-  alert('Trade denied!');
-}
-
-// Function to update player cards
-function updatePlayerCards(card1, card2) {
-  player1Card = card1;
-  player2Card = card2;
-
-  player1CardElement.textContent = player1Card;
-  player2CardElement.textContent = player2Card;
-}
-
-// Function to retrieve player cards from the deck
-function getPlayerCards() {
-  // Make an API request to the deck URL and retrieve player cards
-  // Replace the deckURL with your actual deck URL or API endpoint
-  const deckURL = 'https://example.com/deck';
-
-  fetch(deckURL)
-    .then((response) => response.json())
-    .then((data) => {
-      // Update player cards with the retrieved data
-      updatePlayerCards(data.player1Card, data.player2Card);
-    })
-    .catch((error) => {
-      console.log('Error:', error);
-    });
-}
-
-// Call the getPlayerCards function to retrieve player cards
-getPlayerCards();
+export default CardTrade;
