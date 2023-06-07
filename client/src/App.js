@@ -9,7 +9,7 @@ import MyCollection from './pages/MyCollection';
 import LandingPage from './pages/LandingPage';
 import { setContext } from '@apollo/client/link/context';
 import HomePage from './pages/Homepage';
-import Navbar from './components/Navbar';
+// import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
 
@@ -43,7 +43,7 @@ function App() {
   return (
     <ApolloProvider client={client}>
     <ThemeProvider theme={theme}>
-      <Navbar />
+      {/* <Navbar /> */}
       <CssBaseline />
       <Router>
         <Routes>
