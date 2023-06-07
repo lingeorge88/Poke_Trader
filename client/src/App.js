@@ -10,6 +10,7 @@ import LandingPage from './pages/LandingPage';
 import { setContext } from '@apollo/client/link/context';
 import HomePage from './pages/Homepage';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 
 const httpLink = createHttpLink({
@@ -51,6 +52,8 @@ function App() {
           <Route path="/search" element={<SearchedCard />} />
           <Route path="/saved" element={<MyCollection />} />
         </Routes>
+
+      <Footer />
       </Router>
     </ThemeProvider>
      </ApolloProvider>
