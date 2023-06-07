@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from '@mui/material';
+const player1CardImage = document.getElementById('player1CardImage');
+const player2CardImage = document.getElementById('player2CardImage');
+const player1ConfirmButton = document.getElementById('player1Confirm');
+const player1DenyButton = document.getElementById('player1Deny');
+const player2ConfirmButton = document.getElementById('player2Confirm');
+const player2DenyButton = document.getElementById('player2Deny');
 
 const Trading = () => {
   const [player1Card, setPlayer1Card] = useState('');
@@ -28,28 +31,18 @@ const Trading = () => {
     alert('Trade denied!');
   };
 
-  return (
-    <div>
-      <h1>Card Trading</h1>
-      <div>
-        <h2>Player 1</h2>
-        <p>Card: {player1Card}</p>
-        <button onClick={() => handlePlayer1Confirm(player2Card)}>Confirm</button>
-        <button onClick={handlePlayer1Deny}>Deny</button>
-      </div>
-      <div>
-        <h2>Player 2</h2>
-        <p>Card: {player2Card}</p>
-        <button onClick={() => handlePlayer2Confirm(player1Card)}>Confirm</button>
-        <button onClick={handlePlayer2Deny}>Deny</button>
-      </div>
-      <div style={{ marginTop: '20px' }}>
-        <Button component={Link} to="/home">
-          Home
-        </Button>
-      </div>
-    </div>
-  );
+  useEffect(() => {
+    // Update the card images when player1Card or player2Card changes
+    player1CardImage.src = player1Card;
+    player2CardImage.src = player2Card;
+  }, [player1Card, player2Card]);
+
+  player1ConfirmButton.addEventListener('click', () => handlePlayer1Confirm(player2Card));
+  player1DenyButton.addEventListener('click', handlePlayer1Deny);
+  player2ConfirmButton.addEventListener('click', () => handlePlayer2Confirm(player1Card));
+  player2DenyButton.addEventListener('click', handlePlayer2Deny);
+
+  return null; // Trading.js doesn't render any visible UI, so return null
 };
 
 export default Trading;
