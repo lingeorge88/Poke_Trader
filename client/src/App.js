@@ -9,6 +9,7 @@ import MyCollection from './pages/MyCollection';
 import LandingPage from './pages/LandingPage';
 import { setContext } from '@apollo/client/link/context';
 import HomePage from './pages/Homepage';
+import Navbar from './components/Navbar';
 
 
 const httpLink = createHttpLink({
@@ -41,7 +42,7 @@ function App() {
   return (
     <ApolloProvider client={client}>
     <ThemeProvider theme={theme}>
-
+      <Navbar />
       <CssBaseline />
       <Router>
         <Routes>
