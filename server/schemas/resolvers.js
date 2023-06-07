@@ -43,11 +43,12 @@ const resolvers = {
       return { token, user };
     },
 
-    saveCard: async (parent, card, context) => {
+    saveCard: async (parent, { cardId, name, image, setName, seriesName, setImage, rarity, releaseDate }, context) => {
       if (context.user) {
+        const cardData = { cardId, name, image, setName, seriesName, setImage, rarity, releaseDate };
         const updatedUser = await User.findByIdAndUpdate(
           { _id: context.user._id },
-          { $addToSet: { savedCards: card } },
+          { $addToSet: { savedCards: cardData } },
           { new: true }
         );
         return updatedUser;

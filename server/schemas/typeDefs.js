@@ -9,7 +9,7 @@ const typeDefs = gql`
     savedCards: [Card]
   }
   type Card {
-    cardId: ID!
+    cardId: String!
     name: String!
     image: String
     setName: String
@@ -33,7 +33,7 @@ const typeDefs = gql`
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
     saveCard(
-      cardId: ID!
+      cardId: String!
     name: String!
     image: String
     setName: String
@@ -44,7 +44,7 @@ const typeDefs = gql`
     ): User
 
     removeCard(
-      cardId: ID!
+      cardId: String!
     ): User
   }
 

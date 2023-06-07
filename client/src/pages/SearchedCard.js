@@ -22,29 +22,7 @@ const SearchedCard = () => {
     setPage(1); // Reset to page 1 for new searches
   }
 
-  const handleSaveCard = async (cardId) => {
-    const cardToSave = cards.find((card) => card.cardId === cardId);
-  
-    try {
-      await saveCard({
-        variables: {
-          cardId: cardToSave.cardId,
-          name: cardToSave.name,
-          image: cardToSave.images.small,
-          setName: cardToSave.set.name,
-          seriesName: cardToSave.set.series,
-          setImage: cardToSave.set.images.logo,
-          rarity: cardToSave.rarity,
-          releaseDate: cardToSave.set.releaseDate,
-        }
-      });
-  
-      // Assuming you have a state for savedCardIds
-      setSavedCardIds([...savedCardIds, cardToSave.cardId]);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+
 
   useEffect(() => {
     if (searchTerm) {
@@ -61,6 +39,30 @@ const SearchedCard = () => {
         });
     }
   }, [searchTerm, page]); 
+  // console.log(cards);
+  const handleSaveCard = async (cardId) => {
+    const cardToSave = cards.find((card) => card.id === cardId);
+  
+    try {
+      await saveCard({
+        variables: {
+          cardId: cardToSave.id,
+          name: cardToSave.name,
+          image: cardToSave.images.small,
+          setName: cardToSave.set.name,
+          seriesName: cardToSave.set.series,
+          setImage: cardToSave.set.images.logo,
+          rarity: cardToSave.rarity,
+          releaseDate: cardToSave.set.releaseDate,
+        }
+      });
+  
+      
+      setSavedCardIds([...savedCardIds, cardToSave.id]);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <div className="App">
@@ -71,7 +73,7 @@ const SearchedCard = () => {
       ) : (
         <>
           <Grid container spacing={2} style={{ marginTop: '30px' }}>
-            {cards.map((card) => <CardComponent card={card} handleSave={handleSaveCard}/>)}
+            {cards.map((card) => <CardComponent card={card} handleSave={handleSaveCard} key={card.id}/>)}
           </Grid>
           <div style={{ marginTop: '20px' }}>
             <Button 
