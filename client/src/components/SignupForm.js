@@ -1,20 +1,15 @@
 import React, { useState } from 'react';
-import { Form, Button, Alert } from 'react-bootstrap';
-
+import { TextField, Button, Grid, Box, Alert } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import Auth from '../utils/auth';
 import { useMutation } from '@apollo/client';
 import { ADD_USER } from '../utils/mutations';
 
 const Signup = () => {
-  // set initial form state
+  const navigate = useNavigate();
   const [userFormData, setUserFormData] = useState({ username: '', email: '', password: '' });
-  // set state for form validation
-  const [validated] = useState(false);
-  // set state for alert
   const [showAlert, setShowAlert] = useState(false);
 
-  // get a function 'addUser' returned by useMutation hook 
-  // to execute the ADD_USER mutation in the functions below
   const [addUser, { loading }] = useMutation(ADD_USER);
 
   const handleInputChange = (event) => {
@@ -25,20 +20,13 @@ const Signup = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    // check if form has everything (as per react-bootstrap docs)
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-
     try {
-      const { data } = await addUser(
-        {
-          variables: userFormData
-        }
-      );
+      const { data } = await addUser({
+        variables: userFormData,
+      });
+      
       Auth.login(data.addUser.token);
+      navigate("/home");
     } catch (err) {
       console.error(err);
       setShowAlert(true);
@@ -56,60 +44,56 @@ const Signup = () => {
   }
 
   return (
-    <>
-      {/* This is needed for the validation functionality above */}
-      <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
-        {/* show alert if server response is bad */}
-        <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
-          Something went wrong with your signup!
-        </Alert>
-
-        <Form.Group className='mb-3'>
-          <Form.Label htmlFor='username'>Username</Form.Label>
-          <Form.Control
-            type='text'
-            placeholder='Your username'
-            name='username'
-            onChange={handleInputChange}
-            value={userFormData.username}
-            required
-          />
-          <Form.Control.Feedback type='invalid'>Username is required!</Form.Control.Feedback>
-        </Form.Group>
-
-        <Form.Group className='mb-3'>
-          <Form.Label htmlFor='email'>Email</Form.Label>
-          <Form.Control
-            type='email'
-            placeholder='Your email address'
-            name='email'
-            onChange={handleInputChange}
-            value={userFormData.email}
-            required
-          />
-          <Form.Control.Feedback type='invalid'>Email is required!</Form.Control.Feedback>
-        </Form.Group>
-
-        <Form.Group className='mb-3'>
-          <Form.Label htmlFor='password'>Password</Form.Label>
-          <Form.Control
-            type='password'
-            placeholder='Your password'
-            name='password'
-            onChange={handleInputChange}
-            value={userFormData.password}
-            required
-          />
-          <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
-        </Form.Group>
-        <Button
-          disabled={!(userFormData.username && userFormData.email && userFormData.password)}
-          type='submit'
-          variant='success'>
-          Submit
-        </Button>
-      </Form>
-    </>
+    <Box>
+      <form noValidate onSubmit={handleFormSubmit}>
+        {showAlert && 
+          <Alert severity="error" onClose={() => setShowAlert(false)}>
+            Something went wrong with your signup!
+          </Alert>
+        }
+        <Grid container direction="column" spacing={2}>
+          <Grid item>
+            <TextField 
+              label="Username"
+              type="text"
+              name="username"
+              value={userFormData.username}
+              onChange={handleInputChange}
+              required
+            />
+          </Grid>
+          <Grid item>
+            <TextField 
+              label="Email"
+              type="email"
+              name="email"
+              value={userFormData.email}
+              onChange={handleInputChange}
+              required
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              label="Password"
+              type="password"
+              name="password"
+              value={userFormData.password}
+              onChange={handleInputChange}
+              required
+            />
+          </Grid>
+          <Grid item>
+            <Button
+              disabled={!(userFormData.username && userFormData.email && userFormData.password)}
+              type="submit"
+              variant="contained"
+            >
+              Submit
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
+    </Box>
   );
 };
 

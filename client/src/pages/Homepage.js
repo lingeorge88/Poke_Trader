@@ -4,11 +4,15 @@ import { Button } from '@mui/material';
 import Pokemon from '../data/pokemon.json';
 import CardComponent from './CardComponent';
 import '../styles/homepage.css';
+import authService from '../utils/auth';
 
 function HomePage() {
   const [cards, setCards] = useState([]);
-
+  const handleLogout = () => {
+    authService.logout();
+  };
   useEffect(() => {
+    
     // Randomly pick five unique Pokemon
     let pokemonNames = [];
     while (pokemonNames.length < 5) {
@@ -17,7 +21,6 @@ function HomePage() {
         pokemonNames.push(Pokemon[randomIndex]);
       }
     }
-
     // Fetch data for each Pokemon
     Promise.all(pokemonNames.map(name =>
       fetch(`https://api.pokemontcg.io/v2/cards?q=name:${name}`)
@@ -25,7 +28,8 @@ function HomePage() {
     ))
     .then(results => {
       // Flatten the results array and set the state
-      setCards(results.flat().map(result => result.data[0])); // Take first card from each result
+      setCards(results.flat().map(result => result.data[0]));
+       // Take first card from each result
     })
     .catch(error => console.error(error));
   }, []);
@@ -44,6 +48,10 @@ function HomePage() {
 
         <Button variant="contained" color="primary" component={Link} to="/trade">
           Trade
+        </Button>
+
+        <Button variant="contained" color="secondary" onClick={handleLogout}>
+          Logout
         </Button>
       </div>
 

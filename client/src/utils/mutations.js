@@ -27,7 +27,7 @@ export const ADD_USER = gql`
 `;
 
 export const SAVE_CARD = gql`
-  mutation SaveCard($cardId: String!, $name: String!, $image: String, $setName: String, $seriesName: String, $setImage: String, $rarity: String, $releaseDate: String) {
+  mutation SaveCard($cardId: ID!, $name: String!, $image: String, $setName: String, $seriesName: String, $setImage: String, $rarity: String, $releaseDate: String) {
     saveCard(cardId: $cardId, name: $name, image: $image, setName: $setName, seriesName: $seriesName, setImage: $setImage, rarity: $rarity, releaseDate: $releaseDate) {
       _id
       username
@@ -47,7 +47,7 @@ export const SAVE_CARD = gql`
 `;
 
 export const REMOVE_CARD = gql`
-  mutation RemoveCard($cardId: String!) {
+  mutation RemoveCard($cardId: ID!) {
     removeCard(cardId: $cardId) {
       _id
       username
