@@ -23,11 +23,11 @@ const CardComponent = ({ card, handleDelete, showDelete, handleSave }) => {
           <img src={card.set.images.logo} alt={card.name} style={{ width: '65px', height: 'auto' }} />
           <img src={card.images.small} alt={card.name} />
           <Box display="flex" justifyContent="center" marginTop="8px">
-          <IconButton onClick={() => handleSave(card.cardId)}>
+          <IconButton onClick={() => handleSave(card.id)}>
             <CatchingPokemonIcon fontSize="large" />
           </IconButton>
             {showDelete && (
-              <IconButton aria-label="delete" onClick={() => handleDelete(card.cardId)}>
+              <IconButton aria-label="delete" onClick={() => handleDelete(card.id)}>
                 <DeleteOutlineIcon />
               </IconButton>
             )}
