@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trading System</title>
+  <link rel="stylesheet" href="./page-layout.css">
+  <!-- Include Foundation CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites/dist/css/foundation.min.css">
+</head>
+<body>
+  
+  <div class="logo">
+    <img src="../src/assets/card_logo.png" alt="Logo">
+  </div>
+
+  <div class="container">
+    <div id="player1" class="player">
+      <h2>Player 1</h2>
+      <div class="card">
+        <img id="player1CardImage" src="" alt="Player 1 Card">
+      </div>
+      <div class="buttons">
+        <button id="player1Confirm" class="button">Confirm Trade</button>
+        <button id="player1Deny" class="button">Deny Trade</button>
+      </div>
+    </div>
+
+    <div id="player2" class="player">
+      <h2>Player 2</h2>
+      <div class="card">
+        <img id="player2CardImage" src="" alt="Player 2 Card">
+      </div>
+      <div class="buttons">
+        <button id="player2Confirm" class="button">Confirm Trade</button>
+        <button id="player2Deny" class="button">Deny Trade</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../src/pages/Trading.js"></script>
+</body>
+</html>
