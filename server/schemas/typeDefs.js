@@ -46,7 +46,11 @@ const typeDefs = gql`
     removeCard(
       cardId: ID!
     ): User
+
   }
+
+  
+  
 
 `;
 
