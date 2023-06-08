@@ -2,7 +2,6 @@ import React from 'react';
 import { Popover, Typography, Paper } from '@mui/material';
 
 const MyPopover = ({ open, anchorEl, handleClosePopper }) => {
-  console.log('MyPopover open:', open);
   return (
     <Popover
       open={open}

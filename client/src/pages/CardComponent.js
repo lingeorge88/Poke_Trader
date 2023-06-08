@@ -19,7 +19,6 @@ const CardComponent = ({ card, handleDelete, showDelete, handleSave, savedCardId
   };
 
   const handleOpenPopper = (event) => {
-    console.log('HomeIcon clicked');
     setPopperAnchorEl(event.currentTarget);
     setOpen(true);
   };
@@ -34,8 +33,12 @@ const CardComponent = ({ card, handleDelete, showDelete, handleSave, savedCardId
       <Card>
         <CardContent>
           <Typography variant="h5" style={{ marginBottom: '8px' }}>{card.name}</Typography>
+          <Box display="flex" justifyContent="center" alignItems="center" mb={2}>
           <img src={card.set.images.logo} alt={card.name} style={{ width: '65px', height: 'auto' }} />
+          </Box>
+          <Box display="flex" justifyContent="center" alignItems="center" mb={2} height="100%">
           <img src={card.images.small} alt={card.name} />
+          </Box>
           <Box display="flex" justifyContent="center" marginTop="8px">
         
           {savedCardIds && savedCardIds.includes(card.id) ?
