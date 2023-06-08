@@ -9,6 +9,8 @@ import MyCollection from './pages/MyCollection';
 import LandingPage from './pages/LandingPage';
 import { setContext } from '@apollo/client/link/context';
 import HomePage from './pages/Homepage';
+import TradingPage from './pages/TradingPage';
+import SingleUser from './pages/SingleUser';
 // import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
@@ -51,6 +53,12 @@ function App() {
           <Route path="/home" element = {<HomePage/>} />
           <Route path="/search" element={<SearchedCard />} />
           <Route path="/saved" element={<MyCollection />} />
+          <Route path="/trade" element={<TradingPage />} />
+          <Route 
+                path="/users/:userId" 
+                element={<SingleUser />} 
+              />
+
         </Routes>
 
       <Footer />
