@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Grid, Card, CardContent, Typography, IconButton, Box } from '@mui/material';
 import Lottie from 'lottie-react';
@@ -48,8 +48,12 @@ const MyCollections = () => {
             <Card>
         <CardContent>
           <Typography variant="h5" style={{ marginBottom: '8px' }}>{card.name}</Typography>
+          <Box display="flex" justifyContent="center" alignItems="center" mb={2}>
           <img src={card.setImage} alt={card.seriesName} style={{ width: '65px', height: 'auto' }} />
+          </Box>
+          <Box display="flex" justifyContent="center" alignItems="center" mb={2} height="100%">
           <img src={card.image} alt={card.name} />
+          </Box>
           <Box display="flex" justifyContent="center" marginTop="8px">
               <IconButton aria-label="delete" onClick={() => handleCardDelete(card.cardId)}>
                 <YardIcon fontSize="large"/>

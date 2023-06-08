@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ApolloClient, InMemoryCache, createHttpLink, ApolloProvider } from '@apollo/client';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,14 +10,14 @@ import LandingPage from './pages/LandingPage';
 import { setContext } from '@apollo/client/link/context';
 import HomePage from './pages/Homepage';
 import TradingPage from './pages/TradingPage';
-import SingleUser from './pages/SingleUser';
-// import Navbar from './components/Navbar';
+import SingleUserPage from './pages/SingleUser';
+import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:3001/graphql',
 });
+
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
   const token = localStorage.getItem('id_token');
@@ -31,9 +31,10 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const client = new ApolloClient({
-    link: authLink.concat(httpLink),
-    cache: new InMemoryCache(),
-  });
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
+
 function App() {
   const theme = createTheme({
     palette: {
@@ -41,30 +42,33 @@ function App() {
     },
   });
 
-  
   return (
     <ApolloProvider client={client}>
-    <ThemeProvider theme={theme}>
-      {/* <Navbar /> */}
-      <CssBaseline />
-      <Router>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/home" element = {<HomePage/>} />
-          <Route path="/search" element={<SearchedCard />} />
-          <Route path="/saved" element={<MyCollection />} />
-          <Route path="/trade" element={<TradingPage />} />
-          <Route 
-                path="/users/:userId" 
-                element={<SingleUser />} 
-              />
-
-        </Routes>
-
-      <Footer />
-      </Router>
-    </ThemeProvider>
-     </ApolloProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route
+              path="/*"
+              element={
+                <React.Fragment>
+                  <Navbar />
+                  <Routes>
+                    <Route path="/home" element={<HomePage />} />
+                    <Route path="/search" element={<SearchedCard />} />
+                    <Route path="/saved" element={<MyCollection />} />
+                    <Route path="/trade" element={<TradingPage />} />
+                    <Route path="/users/:userId" element={<SingleUserPage />} />
+                  </Routes>
+                  <Footer />
+                </React.Fragment>
+              }
+            />
+          </Routes>
+        </Router>
+      </ThemeProvider>
+    </ApolloProvider>
   );
 }
 

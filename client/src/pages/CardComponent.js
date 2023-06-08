@@ -32,7 +32,7 @@ const CardComponent = ({ card, handleDelete, showDelete, handleSave, savedCardId
     <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={card.id}>
       <Card>
         <CardContent>
-          <Typography variant="h5" style={{ marginBottom: '8px' }}>{card.name}</Typography>
+          <Typography variant="h5" style={{ marginBottom: '8px', textAlign: 'center' }}>{card.name}</Typography>
           <Box display="flex" justifyContent="center" alignItems="center" mb={2}>
           <img src={card.set.images.logo} alt={card.name} style={{ width: '65px', height: 'auto' }} />
           </Box>

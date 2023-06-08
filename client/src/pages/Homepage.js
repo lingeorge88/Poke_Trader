@@ -7,13 +7,13 @@ import '../styles/homepage.css';
 import authService from '../utils/auth';
 import { useMutation } from '@apollo/client';
 import { SAVE_CARD } from '../utils/mutations';
-import { saveCardIds, getSavedCardIds } from '../utils/localStorage';
+import { getSavedCardIds } from '../utils/localStorage';
 import Lottie from 'lottie-react';
 import Squirtle from '../assets/squirtle.json';
 
 function HomePage() {
   const [cards, setCards] = useState([]);
-  const [saveCard, { error }] = useMutation(SAVE_CARD);
+  const [saveCard] = useMutation(SAVE_CARD);
   const [savedCardIds, setSavedCardIds] = useState(getSavedCardIds());
   const [loading, setLoading] = useState(true);
   

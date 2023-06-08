@@ -7,7 +7,7 @@ import Diglett from '../assets/diglettloading.json';
 import CardComponent from './CardComponent';
 import { SAVE_CARD } from '../utils/mutations';
 import { useMutation} from '@apollo/client';
-import { saveCardIds, getSavedCardIds } from '../utils/localStorage';
+import { getSavedCardIds } from '../utils/localStorage';
 
 
 const SearchedCard = () => {
@@ -15,7 +15,7 @@ const SearchedCard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [saveCard, { error }] = useMutation(SAVE_CARD);
+  const [saveCard] = useMutation(SAVE_CARD);
   const [savedCardIds, setSavedCardIds] = useState(getSavedCardIds());
   const [filteredCards, setFilteredCards] = useState([]);
   const searchPokemon = (search) => {

@@ -1,19 +1,22 @@
 import React, {useState} from 'react';
-import { Button, Grid, Card, CardContent, Typography, IconButton, Box } from '@mui/material';
+import {Grid, Card, CardContent, Typography, IconButton, Box } from '@mui/material';
 import ZoomPopover from '../components/CardPopOver';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { QUERY_USER } from '../utils/queries';
-import SwapHorizontalCircleIcon from '@mui/icons-material/SwapHorizontalCircle';
+import { QUERY_USER, QUERY_CURRENT_USER } from '../utils/queries';
+import EmailIcon from '@mui/icons-material/Email';
 
 
 const SingleUserPage = () => {
     const { userId } = useParams();
-    const { loading, data } = useQuery(QUERY_USER, {
-      variables: { userId: userId },
-    });
+    const { loading: userLoading, data: userData } = useQuery(QUERY_USER, {
+        variables: { userId: userId },
+      });
+      const { loading: currentUserLoading, data: currentUserData } = useQuery(QUERY_CURRENT_USER);
+    
+
     const [anchorEls, setAnchorEls] = useState(null);
-    const [selectedCards, setSelectedCards] = useState([]);
+    // const [selectedCards, setSelectedCards] = useState([]);
 
     const handleOpen = (event, cardId) => {
       setAnchorEls(prev => ({ ...prev, [cardId]: event.currentTarget }));
@@ -23,22 +26,31 @@ const SingleUserPage = () => {
       setAnchorEls(prev => ({ ...prev, [cardId]: null }));
     };
 
-    const handleSelect = (cardId) => {
-        setSelectedCards(prev => [...prev, cardId]);
-        console.log(selectedCards);
-      };
+    
 
-    if (loading) {
-      return <div>Loading...</div>;
-    }
+    if (userLoading || currentUserLoading) {
+        return <div>Loading...</div>;
+      }
   
-    const user = data?.user; // Use optional chaining to safely access the user object
+    const user = userData?.user; // Use optional chaining to safely access the user object
   
     if (!user) {
       return <div>User not found.</div>;
     }
     const { username, savedCards } = user;
 
+    const sendEmail = (email, card) => {
+        const currentUser = currentUserData?.currentUser ||[];
+        const emailSubject = `Poké Trader - Interest in ${card.name}`;
+        const emailBody = `Hello, I came upon your collection on Poké Trader's trading page and am interested in trading for your ${card.name} card from the ${card.setName} set, please checkout my collections at ${currentUser.username} on the Poké Trader's trading page and see if any card catches your interest, 
+        
+        
+
+        Best,
+        ${currentUser.username}
+        `;
+        window.open(`mailto:${email}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`);
+      }
     return (
         <div>
           <Box display="flex" justifyContent="center" alignItems="center" mt={5} mb={5}>
@@ -59,9 +71,9 @@ const SingleUserPage = () => {
                   <img src={card.image} alt={card.name}/>
                 </Box>
                     <Box display="flex" justifyContent="center" marginTop="8px">
-                    <IconButton color="primary" onClick={() => handleSelect(card.cardId)}>
-                    <SwapHorizontalCircleIcon />
-                  </IconButton>
+                    <IconButton color="primary" onClick={() => sendEmail(user.email, card)}>
+                    <EmailIcon fontSize="large"/>
+                    </IconButton>
                       
                       <ZoomPopover
                         anchorEl={anchorEls?.[card.cardId]}
