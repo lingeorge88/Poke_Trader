@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Grid, Card, CardContent, Typography, IconButton, Box } from '@mui/material';
 import CatchingPokemonIcon from '@mui/icons-material/CatchingPokemon';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ZoomPopover from '../components/CardPopOver';
+import HomeIcon from '@mui/icons-material/Home';
+import MyPopper from '../components/HomeIconPopper';
 
-const CardComponent = ({ card, handleDelete, showDelete, handleSave }) => {
+const CardComponent = ({ card, handleDelete, showDelete, handleSave, savedCardIds }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [popperAnchorEl, setPopperAnchorEl] = useState(null);
+  const [open, setOpen] = useState(false);
 
   const handleOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -13,6 +16,17 @@ const CardComponent = ({ card, handleDelete, showDelete, handleSave }) => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleOpenPopper = (event) => {
+    console.log('HomeIcon clicked');
+    setPopperAnchorEl(event.currentTarget);
+    setOpen(true);
+  };
+
+  const handleClosePopper = () => {
+    setPopperAnchorEl(null);
+    setOpen(false);
   };
 
   return (
@@ -23,14 +37,16 @@ const CardComponent = ({ card, handleDelete, showDelete, handleSave }) => {
           <img src={card.set.images.logo} alt={card.name} style={{ width: '65px', height: 'auto' }} />
           <img src={card.images.small} alt={card.name} />
           <Box display="flex" justifyContent="center" marginTop="8px">
-          <IconButton onClick={() => handleSave(card.id)}>
-            <CatchingPokemonIcon fontSize="large" />
-          </IconButton>
-            {showDelete && (
-              <IconButton aria-label="delete" onClick={() => handleDelete(card.id)}>
-                <DeleteOutlineIcon />
-              </IconButton>
-            )}
+        
+          {savedCardIds && savedCardIds.includes(card.id) ?
+              <IconButton onClick={handleOpenPopper}>
+                <HomeIcon fontSize="large" />
+              </IconButton> 
+              :
+              <IconButton onClick={() => handleSave(card.id)}>
+                <CatchingPokemonIcon fontSize="large" />
+              </IconButton> 
+            }
             <ZoomPopover 
               anchorEl={anchorEl} 
               handleOpen={handleOpen} 
@@ -41,6 +57,7 @@ const CardComponent = ({ card, handleDelete, showDelete, handleSave }) => {
               logoImage={card.set.images.logo}
               cardRarity={card.rarity}
             />
+            <MyPopper open={open} anchorEl={popperAnchorEl} handleClosePopper={handleClosePopper} />
           </Box>
         </CardContent>
       </Card>

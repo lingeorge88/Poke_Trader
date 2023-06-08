@@ -6,8 +6,9 @@ import Lottie from 'lottie-react';
 import Diglett from '../assets/diglettloading.json';
 import CardComponent from './CardComponent';
 import { SAVE_CARD } from '../utils/mutations';
-import { useMutation } from '@apollo/client';
+import { useMutation} from '@apollo/client';
 import { saveCardIds, getSavedCardIds } from '../utils/localStorage';
+
 
 const SearchedCard = () => {
   const [cards, setCards] = useState([]);
@@ -16,12 +17,11 @@ const SearchedCard = () => {
   const [page, setPage] = useState(1);
   const [saveCard, { error }] = useMutation(SAVE_CARD);
   const [savedCardIds, setSavedCardIds] = useState(getSavedCardIds());
-
+  const [filteredCards, setFilteredCards] = useState([]);
   const searchPokemon = (search) => {
     setSearchTerm(search);
     setPage(1); // Reset to page 1 for new searches
   }
-
 
 
   useEffect(() => {
@@ -30,7 +30,8 @@ const SearchedCard = () => {
       fetch(`https://api.pokemontcg.io/v2/cards?page=${page}&pageSize=25&q=name:${searchTerm}`)
         .then(response => response.json())
         .then(data => {
-          setCards(data.data);
+          const newCards = data.data.filter(card => !savedCardIds.includes(card.id));
+          setCards(newCards);
           setLoading(false);
         })
         .catch(error => {
@@ -39,8 +40,20 @@ const SearchedCard = () => {
         });
     }
   }, [searchTerm, page]); 
+
+  useEffect(() => {
+    // this will be called whenever savedCardIds or cards changes
+    const newCards = cards.filter(card => !savedCardIds.includes(card.id));
+    setFilteredCards(newCards);
+  }, [cards, savedCardIds]);
+
   // console.log(cards);
   const handleSaveCard = async (cardId) => {
+    if (savedCardIds.includes(cardId)) {
+      console.log('This card is already saved.');
+      return;
+    }
+
     const cardToSave = cards.find((card) => card.id === cardId);
   
     try {
@@ -73,7 +86,7 @@ const SearchedCard = () => {
       ) : (
         <>
           <Grid container spacing={2} style={{ marginTop: '30px' }}>
-            {cards.map((card) => <CardComponent card={card} handleSave={handleSaveCard} key={card.id}/>)}
+            {filteredCards.map((card) => <CardComponent card={card} handleSave={handleSaveCard} savedCardIds={savedCardIds} key={card.id}/>)}
           </Grid>
           <div style={{ marginTop: '20px' }}>
             <Button 

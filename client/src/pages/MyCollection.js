@@ -8,7 +8,7 @@ import ZoomPopover from '../components/CardPopOver';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_CURRENT_USER } from '../utils/queries';
 import { REMOVE_CARD } from '../utils/mutations';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import YardIcon from '@mui/icons-material/Yard';
 
 const MyCollections = () => {
   const { loading, data } = useQuery(QUERY_CURRENT_USER);
@@ -40,7 +40,7 @@ const MyCollections = () => {
 
   return (
     <div className="App">
-      <h1>My Collection</h1>
+      <h1>🏝️ My PokéBox 🏠</h1>
       
       <Grid container spacing={2}>
         {savedCards.map((card) => (
@@ -52,7 +52,7 @@ const MyCollections = () => {
           <img src={card.image} alt={card.name} />
           <Box display="flex" justifyContent="center" marginTop="8px">
               <IconButton aria-label="delete" onClick={() => handleCardDelete(card.cardId)}>
-                <DeleteOutlineIcon />
+                <YardIcon fontSize="large"/>
               </IconButton>
             <ZoomPopover 
               anchorEl={anchorEls?.[card.cardId]} 
