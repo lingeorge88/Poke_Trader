@@ -7,7 +7,7 @@ import Diglett from '../assets/diglettloading.json';
 import CardComponent from './CardComponent';
 import { SAVE_CARD } from '../utils/mutations';
 import { useMutation} from '@apollo/client';
-import { getSavedCardIds } from '../utils/localStorage';
+import { getSavedCardIds, saveCardIds } from '../utils/localStorage';
 
 
 const SearchedCard = () => {
@@ -72,6 +72,7 @@ const SearchedCard = () => {
   
       
       setSavedCardIds([...savedCardIds, cardToSave.id]);
+      saveCardIds(savedCardIds);
     } catch (err) {
       console.error(err);
     }

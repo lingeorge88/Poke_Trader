@@ -11,6 +11,7 @@ import { getSavedCardIds } from '../utils/localStorage';
 import Lottie from 'lottie-react';
 import Squirtle from '../assets/squirtle.json';
 
+
 function HomePage() {
   const [cards, setCards] = useState([]);
   const [saveCard] = useMutation(SAVE_CARD);
@@ -95,7 +96,7 @@ function HomePage() {
           Trade
         </Button>
 
-        <Button variant="contained" color="secondary" onClick={handleLogout}>
+        <Button variant="contained" color="secondary" onClick={handleLogout} > 
           Logout
         </Button>
       </div>

@@ -8,8 +8,12 @@ import Video from '../assets/Opening.mp4';
 import logo from '../assets/Logo.png';
 import LoginForm from '../components/LoginForm';
 import SignupForm from '../components/SignupForm';
+import Lugia from '../assets/lugia.png';
+import Hooh from '../assets/hooh.png';
 
 function LandingPage() {
+    
+
     const [videoEnded, setVideoEnded] = useState(false);
     const [showForm, setShowForm] = useState(null);
 
@@ -60,7 +64,7 @@ function LandingPage() {
                                   variant="outlined" 
                                   color="primary" 
                                   size="large"
-                                  onClick={() => setShowForm('login')}
+                                  onClick={() => setShowForm('login')} startIcon={<img src={Hooh} alt="ho-oh" style={{ width: '50px', height: 'auto' }} />}
                                 >
                                     Login
                                 </Button>
@@ -70,7 +74,7 @@ function LandingPage() {
                                   variant="contained" 
                                   color="primary" 
                                   size="large"
-                                  onClick={() => setShowForm('signup')}
+                                  onClick={() => setShowForm('signup')} startIcon={<img src={Lugia} alt="lugia" style={{ width: '50px', height: 'auto' }} />}
                                 >
                                     Signup
                                 </Button>
