@@ -14,6 +14,7 @@ const MyCollections = () => {
   const { loading, data } = useQuery(QUERY_CURRENT_USER);
   const savedCards = data?.currentUser?.savedCards  || [];
   const [removeCard] = useMutation(REMOVE_CARD);
+  const [hoverStates, setHoverStates] = useState({});
 
   const [anchorEls, setAnchorEls] = useState(null);
 
@@ -24,6 +25,14 @@ const MyCollections = () => {
   const handleClose = (cardId) => {
     setAnchorEls(prev => ({ ...prev, [cardId]: null }));
   };
+  const handleMouseEnter = (cardId) => {
+    setHoverStates(prev => ({ ...prev, [cardId]: true }));
+  };
+
+  const handleMouseLeave = (cardId) => {
+    setHoverStates(prev => ({ ...prev, [cardId]: false }));
+  };
+
   async function handleCardDelete(cardId){
     try {
         await removeCard({
@@ -44,8 +53,13 @@ const MyCollections = () => {
       
       <Grid container spacing={2}>
         {savedCards.map((card) => (
-          <Grid item key={card.cardId} xs={12} sm={6} md={4} lg={3} xl={2}>
-            <Card>
+          <Grid item key={card.cardId} xs={12} sm={6} md={4} lg={3} xl={2} >
+            <Card onMouseEnter={() => handleMouseEnter(card.cardId)}
+              onMouseLeave={() => handleMouseLeave(card.cardId)}  
+              sx={{
+                transform: hoverStates[card.cardId] ? 'scale(1.2)' : 'scale(1)',
+                transition: 'transform 0.3s ease',
+              }}>
         <CardContent>
           <Typography variant="h5" style={{ marginBottom: '8px' }}>{card.name}</Typography>
           <Box display="flex" justifyContent="center" alignItems="center" mb={2}>
