@@ -9,6 +9,7 @@ const CardComponent = ({ card, handleDelete, showDelete, handleSave, savedCardId
   const [anchorEl, setAnchorEl] = useState(null);
   const [popperAnchorEl, setPopperAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -27,10 +28,22 @@ const CardComponent = ({ card, handleDelete, showDelete, handleSave, savedCardId
     setPopperAnchorEl(null);
     setOpen(false);
   };
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
 
   return (
     <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={card.id}>
-      <Card>
+      <Card onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}  sx={{
+          transform: isHovered ? 'scale(1.2)' : 'scale(1)',
+          transition: 'transform 0.35s ease',
+        }}>
         <CardContent>
           <Typography variant="h5" style={{ marginBottom: '8px', textAlign: 'center' }}>{card.name}</Typography>
           <Box display="flex" justifyContent="center" alignItems="center" mb={2}>
