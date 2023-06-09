@@ -30,7 +30,7 @@ function Navbar() {
             Search
           </Button>
           <Button component={RouterLink} to="/saved" color="inherit" startIcon={<img src={Squirtle} alt="squirtle" style={{ width: '45px', height: 'auto' }} />}>
-            My Pokebox
+            My Pokébox
           </Button>
           <Button component={RouterLink} to="/trade" color="inherit"startIcon={<img src={Eevee} alt="squirtle" style={{ width: '45px', height: 'auto' }} />}>
             Trade

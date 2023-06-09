@@ -20,7 +20,7 @@ function LandingPage() {
     useEffect(() => {
         const timer = setTimeout(() => {
             setVideoEnded(true);
-        }, 1000); 
+        }, 15000); 
         return () => clearTimeout(timer);
     }, []);
 
