@@ -4,3 +4,6 @@
 DS_Store
 /temp
 /server/.env
+package-lock.json
+client/package-lock.json
+server/package-lock.json
