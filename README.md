@@ -6,7 +6,7 @@ Reconnect with your childhood memories through this Pokémon trading card social
 
 The purpose of this app is to facilitate trading between Pokémon card owners. After creating an account/logging in, players will given the option to browse cards, view their collection, or trade with another user.
 
-Link to application: 
+Link to application: https://poketraderv1.herokuapp.com/
 
 ## Technologies Used
 
