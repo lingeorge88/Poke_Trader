@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import Pokemon from '../data/pokemon.json';
@@ -8,11 +8,11 @@ import authService from '../utils/auth';
 import { useMutation } from '@apollo/client';
 import { SAVE_CARD } from '../utils/mutations';
 import { getSavedCardIds } from '../utils/localStorage';
-import Lottie from 'lottie-react';
-import Squirtle from '../assets/squirtle.json';
+const SquirtleAnimation = lazy(() => import('../components/Squirtle'));
 
 
 function HomePage() {
+  console.log("HomePage rendered");
   const [cards, setCards] = useState([]);
   const [saveCard] = useMutation(SAVE_CARD);
   const [savedCardIds, setSavedCardIds] = useState(getSavedCardIds());
@@ -105,7 +105,9 @@ function HomePage() {
       
       <div className="card-grid">
       {loading ? ( // Render the Lottie animation when loading is true
-          <Lottie animationData={Squirtle} />
+          <Suspense fallback={<div>Loading...</div>}>
+          <SquirtleAnimation />
+        </Suspense>
         ) : (
           // Render the cards when loading is false
           cards.map((card) => (
