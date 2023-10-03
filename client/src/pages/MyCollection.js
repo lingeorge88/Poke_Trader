@@ -4,11 +4,11 @@ import { Button, Grid, Card, CardContent, Typography, IconButton, Box } from '@m
 import Lottie from 'lottie-react';
 import Diglett from '../assets/diglettloading.json';
 import ZoomPopover from '../components/CardPopOver';
-// import CardComponent from './CardComponent';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_CURRENT_USER } from '../utils/queries';
 import { REMOVE_CARD } from '../utils/mutations';
-import YardIcon from '@mui/icons-material/Yard';
+import DeleteTooltip from '../components/DeleteTooltip';
+
 
 const MyCollections = () => {
   const { loading, data } = useQuery(QUERY_CURRENT_USER);
@@ -69,9 +69,7 @@ const MyCollections = () => {
           <img src={card.image} alt={card.name} />
           </Box>
           <Box display="flex" justifyContent="center" marginTop="8px">
-              <IconButton aria-label="delete" onClick={() => handleCardDelete(card.cardId)}>
-                <YardIcon fontSize="large"/>
-              </IconButton>
+          <DeleteTooltip title="Remove Card" onClick={() => handleCardDelete(card.cardId)} />
             <ZoomPopover 
               anchorEl={anchorEls?.[card.cardId]} 
               handleOpen={(event) => handleOpen(event, card.cardId)} 
