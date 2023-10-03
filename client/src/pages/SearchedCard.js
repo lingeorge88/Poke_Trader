@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import SearchBar from '../components/SearchBar';
 import { Button, Grid } from '@mui/material';
-import Lottie from 'lottie-react';
-import Diglett from '../assets/diglettloading.json';
+
 import CardComponent from './CardComponent';
 import { SAVE_CARD } from '../utils/mutations';
 import { useMutation} from '@apollo/client';
 import { getSavedCardIds, saveCardIds } from '../utils/localStorage';
+const DiglettAnimation = lazy(() => import('../components/Diglett'));
 
 
 const SearchedCard = () => {
@@ -83,7 +83,9 @@ const SearchedCard = () => {
       <h1>Poké Trader</h1>
       <SearchBar onSearch={searchPokemon} />
       {loading ? (
-        <Lottie animationData={Diglett} />
+        <Suspense fallback={<div>Loading...</div>}>
+        <DiglettAnimation />
+      </Suspense>
       ) : (
         <>
           <Grid container spacing={2} style={{ marginTop: '30px' }}>
