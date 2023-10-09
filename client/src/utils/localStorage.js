@@ -1,9 +1,6 @@
 export const getSavedCardIds = () => {
-    const savedCardIds = localStorage.getItem('saved_cards')
-    ? JSON.parse(localStorage.getItem('saved_cards'))
-    : [] ;
-
-    return savedCardIds;
+    const savedCardIds = localStorage.getItem('saved_cards');
+    return savedCardIds ? JSON.parse(savedCardIds) : [];
 };
 
 export const saveCardIds = (cardIdArr) => {
@@ -15,10 +12,9 @@ export const saveCardIds = (cardIdArr) => {
 };
 
 export const removeCardId = (cardId) => {
-    const savedCardIds = localStorage.getItem('saved_cards')
-    ? JSON.parse(localStorage.getItem('saved_cards'))
-    : null;
-
+    const item = localStorage.getItem('saved_cards')
+    const savedCardIds = item ? JSON.parse(item) : null;
+    
     if(!savedCardIds) {
         return false;
     }
