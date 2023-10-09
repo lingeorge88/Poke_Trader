@@ -3,7 +3,7 @@ import decode from 'jwt-decode';
 
 jest.mock('jwt-decode');
 
-// Mocking localStorage
+
 const mockLocalStorage = {
   getItem: jest.fn().mockReturnValue(null),
   setItem: jest.fn(),
@@ -14,7 +14,7 @@ Object.defineProperty(window, 'localStorage', {
   value: mockLocalStorage,
 });
 
-// Mocking window.location.assign
+
 Object.defineProperty(window, 'location', {
   value: { assign: jest.fn() },
   writable: true,
