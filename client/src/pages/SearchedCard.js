@@ -2,7 +2,6 @@ import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import SearchBar from '../components/SearchBar';
 import { Button, Grid } from '@mui/material';
-
 import CardComponent from './CardComponent';
 import { SAVE_CARD } from '../utils/mutations';
 import { useMutation} from '@apollo/client';
@@ -47,7 +46,6 @@ const SearchedCard = () => {
     setFilteredCards(newCards);
   }, [cards, savedCardIds]);
 
-  // console.log(cards);
   const handleSaveCard = async (cardId) => {
     if (savedCardIds.includes(cardId)) {
       console.log('This card is already saved.');
