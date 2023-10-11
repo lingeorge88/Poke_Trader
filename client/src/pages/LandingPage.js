@@ -75,7 +75,9 @@ function LandingPage() {
                                 </Button>
                             </Grid>
                             <Grid item>
-                            <Button variant="contained" color="warning" size="large" onClick={() => setPlayVideo(true)} startIcon={<img src={Pikachu} alt="Pikachu" style={{ width: '50px', height: 'auto', verticalAlign: 'middle'}} />}>
+                            <Button variant="contained" color="warning" size="large" onClick={() => {
+                                setPlayVideo(true);
+                                setVideoEnded(false);}} startIcon={<img src={Pikachu} alt="Pikachu" style={{ width: '50px', height: 'auto', verticalAlign: 'middle'}} />}>
                             Surprise!
                         </Button>
                         </Grid>
@@ -87,7 +89,7 @@ function LandingPage() {
                         <source src={Video} type="video/mp4" />
                     </video>
                 )}
-             <Box mt={4}>{renderForm()}</Box>
+             {(!playVideo || videoEnded) && <Box mt={4}>{renderForm()}</Box>}
             </Box>
         </Container>
     );
