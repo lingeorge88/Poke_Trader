@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "@mui/system";
+import { Box, Typography } from "@mui/material";
 
 const Footer = () => {
   return (
@@ -11,8 +11,22 @@ const Footer = () => {
       ml={{ xs: 1, sm: 3, md: 8 }} 
       mr={{ xs: 1, sm: 3, md: 8 }}
     >
-      <div className="container text-center mb-5"> This website is not afiliated with Nintendo. Pokemon is a Nintendo product that we have all grew up loving, and wanted to dedicate this class project to. Please use this website at your own discretion. </div>
-      <div className="container text-center mb-5">&copy; 💖 Created By: George Lin, Wendy Vu, Jeffrey Yeh and Madilyn Bariekman 💖</div>
+      <Typography 
+        component="p" 
+        className="container text-center" 
+        variant="body3"
+        mb={3}
+      >
+        This website is not affiliated with Nintendo. Pokémon is a Nintendo product that we have all grown up loving, and wanted to dedicate this class project to. Please use this website at your own discretion.
+      </Typography>
+      
+      <Typography 
+        component="p" 
+        className="container text-center" 
+        variant="body3"
+      >
+        &copy; 💖 Created By: George Lin, Wendy Vu, Jeffrey Yeh and Madilyn Bariekman 💖
+      </Typography>
     </Box>
   );
 };
